@@ -21,7 +21,7 @@ def show_highest_spending_users():
         
         list_items += f"""
             <li>
-                <strong>{user_name}</strong> ({user_email}) - {total_spent:.2f}$
+                {user_name} ({user_email}) - {total_spent:.2f}$
             </li>
         """
     
@@ -47,7 +47,7 @@ def show_best_sellers():
         
         list_items += f"""
             <li>
-                <strong>{product_name}</strong> (SKU: {product_sku}) - {quantity_sold} vendus
+                {product_name} (SKU: {product_sku}) - {quantity_sold} vendus
             </li>
         """
     
