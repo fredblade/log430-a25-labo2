@@ -64,7 +64,6 @@ def add_order(user_id: int, items: list):
 
         session.commit()
 
-        # TODO: ajouter la commande à Redis
         add_order_to_redis(order_id, user_id, total_amount, items)
 
         return order_id
@@ -85,7 +84,6 @@ def delete_order(order_id: int):
             session.delete(order)
             session.commit()
 
-            # TODO: supprimer la commande à Redis
             delete_order_from_redis(order_id)
             return 1  
         else:
@@ -117,7 +115,7 @@ def add_order_to_redis(order_id, user_id, total_amount, items):
             "quantity": item['quantity']
         })
         
-        # Incrémenter le compteur des produits vendus
+        # Incrementer le compteur des produits vendus
         product_sold_key = f"product_sold:{item['product_id']}"
         r.incr(product_sold_key, int(item['quantity']))
 
@@ -125,7 +123,7 @@ def delete_order_from_redis(order_id):
     """Delete order from Redis"""
     r = get_redis_conn()
     
-    # Décrémenter les compteurs des produits vendus avant suppression
+    # Decrementer les compteurs des produits vendus avant suppression
     item_keys = r.keys(f"order:{order_id}:item:*")
     for item_key in item_keys:
         item_data = r.hgetall(item_key)
@@ -151,10 +149,10 @@ def sync_all_orders_to_redis():
         session = get_sqlalchemy_session()
         try:
             for order in orders_from_mysql:
-                # Récupérer les items de la commande depuis MySQL
+                # Recuperer les items
                 order_items_query = session.query(OrderItem).filter(OrderItem.order_id == order.id).all()
                 
-                # Convertir les items au format attendu par add_order_to_redis
+                # Convertir les donnees
                 items = []
                 for item in order_items_query:
                     items.append({
@@ -162,7 +160,6 @@ def sync_all_orders_to_redis():
                         'quantity': item.quantity
                     })
                 
-                # Ajouter la commande à Redis
                 add_order_to_redis(order.id, order.user_id, order.total_amount, items)
                 rows_added += 1
             

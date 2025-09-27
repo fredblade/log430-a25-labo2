@@ -46,5 +46,4 @@ def populate_redis_from_mysql():
 
 def get_report_highest_spending_users():
     """Get orders report: highest spending users"""
-    # TODO: appeler la méthode correspondante dans read_order.py
     return []

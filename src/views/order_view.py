@@ -11,12 +11,10 @@ from controllers.user_controller import list_users
 
 def show_order_form():
     """ Show order form and list """
-    # Utilisez Redis pour lire les commandes
     orders = list_orders_from_redis(10)
     products = list_products(99)
     users = list_users(99)
     
-    # Gérer le cas où les contrôleurs retournent des erreurs (chaînes)
     if isinstance(orders, str):
         orders = []
     if isinstance(products, str):

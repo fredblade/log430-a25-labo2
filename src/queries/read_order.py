@@ -23,10 +23,7 @@ def get_orders_from_redis(limit=9999):
     """Get last X orders from Redis"""
     r = get_redis_conn()
     
-    # Récupérer toutes les clés des commandes
     order_keys = r.keys("order:*")
-    
-    # Filtrer pour garder que les clés de commandes principales
     order_keys = [key for key in order_keys if ":item:" not in key]
     
     orders = []
@@ -41,7 +38,7 @@ def get_orders_from_redis(limit=9999):
             orders.append(order)
     
     # Triage
-    orders.sort(key=lambda x: x.id, reverse=True)
+    orders.sort(key=lambda a: a.id, reverse=True)
     
     return orders[:limit]
 
@@ -62,14 +59,12 @@ def get_best_selling_products():
     
     product_keys = r.keys("product_sold:*")
     
-    # Créer une liste des produits avec leurs quantités vendues
     products_sold = []
     for key in product_keys:
         product_id = int(key.split(':')[1])
         quantity_sold = int(r.get(key) or 0)
         products_sold.append((product_id, quantity_sold))
-    
-    # Trier par quantité vendue (ordre décroissant)
+
     best_selling = sorted(products_sold, key=lambda item: item[1], reverse=True)
     
     return best_selling
