@@ -41,7 +41,7 @@ jobs:
           
           sleep 10
 
-          docker exec mysql mysql -u labo02 -p labo02 -D labo02_db -e "SHOW TABLES;" || {
+          docker exec mysql mysql -u labo02 -plabo02 -D labo02_db -e "SHOW TABLES;" || {
             docker logs mysql
             exit 1
           }
