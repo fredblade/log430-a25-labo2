@@ -143,13 +143,6 @@ def delete_order_from_redis(order_id):
 
 def sync_all_orders_to_redis():
     """ Sync orders from MySQL to Redis """
-    r = get_redis_conn()
-    
-    # Vérifier s'il y a déjà des commandes dans Redis, sinon synchroniser
-    orders_in_redis = r.keys("order:*")
-    if len(orders_in_redis) > 0:
-        print('Redis already contains orders. Skipping synchronization.')
-        return len(orders_in_redis)
     
     rows_added = 0
     try:
@@ -177,7 +170,7 @@ def sync_all_orders_to_redis():
             session.close()
             
     except Exception as e:
-        print(f'Error sync: {e}')
+        print(e)
         return 0
     
     return rows_added
