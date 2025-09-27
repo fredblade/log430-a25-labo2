@@ -15,13 +15,16 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      # - name: Créer fichier .env 
-      #   run: |
-      #     echo "MYSQL_HOST=${{ vars.MYSQL_HOST }}" >> .env
-      #     echo "MONGODB_HOST=${{ vars.MONGODB_HOST }}" >> .env
-      #     echo "MYSQL_DB_NAME=${{ vars.MYSQL_DB_NAME }}" >> .env
-      #     echo "DB_USERNAME=${{ vars.DB_USERNAME }}" >> .env
-      #     echo "DB_PASSWORD=${{ vars.DB_PASSWORD }}" >> .env
+      - name: Créer fichier .env 
+        run: |
+          echo "DB_HOST=${{ vars.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ vars.DB_PORT }}" >> .env
+          echo "DB_NAME=${{ vars.DB_NAME }}" >> .env
+          echo "DB_USER=${{ vars.DB_USER }}" >> .env
+          echo "DB_PASS=${{ vars.DB_PASS }}" >> .env
+          echo "REDIS_HOST=${{ vars.REDIS_HOST }}" >> .env
+          echo "REDIS_PORT=${{ vars.REDIS_PORT }}" >> .env
+          echo "REDIS_DB=${{ vars.REDIS_DB }}" >> .env
 
       - name: Démarrer le conteneur
         run: docker compose up -d
