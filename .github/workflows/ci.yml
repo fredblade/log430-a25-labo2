@@ -26,7 +26,7 @@ jobs:
       - name: Démarrer le conteneur
         run: docker compose up -d
 
-      - name: Attendre MySQL et vérifier l'initialisation
+      - name: Attendre MYSQL et vérifier l'initialisation
         run: |
           sleep 15
           timeout=90
